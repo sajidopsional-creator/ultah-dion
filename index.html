@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Ulang Tahun Dion 🎂</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+  body {
+    background: #000;
+    min-height: 100vh; color:#fff;
+    padding: 15px 15px 30px;
+    overflow-x: hidden;
+  }
+  .bg-video {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    object-fit: cover;
+    z-index: -1; pointer-events: none;
+  }
+  .container { max-width: 480px; margin: 0 auto; position: relative; z-index: 2; }
+
+  .confetti {
+    position: fixed; top: -10px;
+    width: 10px; height: 10px;
+    opacity: 0.8; pointer-events: none;
+    z-index: 1; animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* SPLASH SCREEN */
+  .splash {
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: linear-gradient(135deg,#0a0e27,#1a1f3a,#2d1b4e);
+    z-index: 99999;
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s;
+  }
+  .splash.hide {
+    opacity: 0; visibility: hidden;
+  }
+  .splash-content {
+    text-align: center; padding: 20px;
+    animation: splashIn 0.8s ease;
+  }
+  @keyframes splashIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .splash-emoji {
+    font-size: 100px; margin-bottom: 20px;
+    display: inline-block;
+    animation: splashCry 1s infinite;
+  }
+  @keyframes splashCry {
+    0%,100% { transform: scale(1) rotate(0); }
+    25% { transform: scale(1.1) rotate(-10deg); }
+    75% { transform: scale(1.1) rotate(10deg); }
+  }
+  .splash-title {
+    font-size: 26px; font-weight: 900;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg,#ff00cc,#3333ff,#00e5ff,#ff00cc);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+    margin-bottom: 30px;
+    line-height: 1.3;
+    filter: drop-shadow(0 0 20px rgba(255,0,204,0.5));
+  }
+  @keyframes shine { to { background-position: 200% center; } }
+  .splash-loader {
+    width: 220px; height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px; margin: 0 auto 12px;
+    overflow: hidden;
+  }
+  .splash-loader-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg,#ff00cc,#3333ff,#00e5ff);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    animation: splashLoad 2.5s ease forwards, shine 1.5s linear infinite;
+  }
+  @keyframes splashLoad {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+  .splash-loading {
+    font-size: 11px; color: #aaa;
+    letter-spacing: 3px;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero {
+    background: transparent;
+    border-radius: 24px; padding: 30px 20px;
+    margin-bottom: 15px; text-align: center;
+    position: relative; overflow: hidden;
+    animation: heroIn 1s ease-out;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.95), 0 0 15px rgba(0,0,0,0.85);
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .cake {
+    font-size: 80px; margin-bottom: 15px;
+    display: inline-block;
+    animation: cakeBounce 1.5s ease-in-out infinite;
+  }
+  @keyframes cakeBounce {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+  }
+  .hero h1 {
+    font-size: 22px; font-weight: 900;
+    letter-spacing: 2px; margin-bottom: 8px;
+    color: #fff;
+  }
+  .hero h2 {
+    font-size: 32px; font-weight: 900;
+    letter-spacing: 3px; margin-bottom: 12px;
+    background: linear-gradient(90deg,#fff,#ffe600,#fff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 3s linear infinite;
+    filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.9));
+  }
+  .hero p { font-size: 12px; color: #fff; letter-spacing: 1px; }
+
+  .card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 15px 5px;
+    margin-bottom: 12px;
+    animation: fadeInUp 0.8s ease-out both;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.8);
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card h3 {
+    font-size: 15px; color: #ff00cc;
+    margin-bottom: 15px; letter-spacing: 1px;
+    font-weight: 900;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+
+  .novel-title {
+    font-size: 17px; font-weight: 900;
+    color: #ff00cc; margin-bottom: 5px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+  .novel-subtitle {
+    font-size: 11px; color: #ccc;
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .novel-content {
+    font-size: 14px; line-height: 1.9;
+    color: #fff; text-align: justify;
+  }
+  .novel-content p {
+    margin-bottom: 15px;
+    text-indent: 25px;
+  }
+  .novel-content .dialog {
+    font-style: italic;
+    color: #ffb3e6;
+    padding: 10px 15px;
+    border-left: 3px solid #ff00cc;
+    margin: 15px 0;
+    text-indent: 0;
+    background: transparent;
+    border-radius: 0 8px 8px 0;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+  .novel-content .emphasize {
+    color: #ffd700;
+    font-weight: 700;
+  }
+
+  .chapter-divider {
+    text-align: center;
+    color: #ff00cc;
+    font-weight: 900;
+    letter-spacing: 5px;
+    margin: 25px 0;
+    font-size: 12px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+
+  .countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin-bottom: 15px;
+  }
+  .cd-box {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,0,204,0.5);
+    border-radius: 10px; padding: 10px; text-align: center;
+    backdrop-filter: blur(5px);
+  }
+  .cd-num {
+    font-size: 22px; font-weight: 900;
+    font-family: 'Courier New', monospace;
+    color: #ff00cc;
+  }
+  .cd-lbl {
+    font-size: 9px; color: #ccc;
+    letter-spacing: 1px; margin-top: 3px;
+  }
+
+  .gift-container { text-align: center; padding: 30px 15px; }
+  .gift-box {
+    display: inline-block; font-size: 100px;
+    cursor: pointer; transition: .3s;
+    animation: giftShake 2s infinite;
+    filter: drop-shadow(2px 2px 8px rgba(0,0,0,0.9));
+  }
+  @keyframes giftShake {
+    0%,100% { transform: rotate(0) scale(1); }
+    25% { transform: rotate(-10deg) scale(1.05); }
+    75% { transform: rotate(10deg) scale(1.05); }
+  }
+  .gift-box.opened {
+    animation: giftOpen 0.8s ease-out forwards;
+  }
+  @keyframes giftOpen {
+    0% { transform: scale(1) rotate(0); }
+    50% { transform: scale(1.5) rotate(180deg); }
+    100% { transform: scale(0) rotate(360deg); opacity: 0; }
+  }
+  .gift-hint {
+    font-size: 12px; color: #fff;
+    margin-top: 15px; letter-spacing: 1px;
+  }
+  .gift-surprise {
+    display: none; font-size: 15px;
+    line-height: 1.9; color: #fff;
+    text-align: center; padding: 15px;
+    background: transparent;
+    border: 1px solid rgba(255,0,204,0.6);
+    border-radius: 12px; margin-top: 15px;
+    animation: fadeInUp 0.5s;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+  .gift-surprise.show { display: block; }
+  .gift-surprise b {
+    color: #ff00cc; font-size: 17px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+
+  .btn-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 15px;
+  }
+  .btn {
+    padding: 14px;
+    background: linear-gradient(90deg,#ff00cc,#3333ff);
+    border: none; border-radius: 10px;
+    color: #fff; font-size: 13px; font-weight: 700;
+    cursor: pointer; letter-spacing: 1px;
+    text-decoration: none; text-align: center;
+    display: block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn.green { background: linear-gradient(90deg,#00b09b,#96c93d); }
+
+  .footer {
+    text-align: center; padding: 20px 0;
+    font-size: 11px; color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.95);
+  }
+  .footer .heart { color: #ff00cc; }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg,#ff00cc,#3333ff);
+    color: #fff; padding: 12px 24px;
+    border-radius: 50px; font-size: 12px;
+    font-weight: 700; opacity: 0;
+    transition: .3s; pointer-events: none;
+    z-index: 999;
+    box-shadow: 0 0 30px rgba(255,0,204,0.5);
+  }
+  .toast.show { opacity: 1; }
+
+  .balloon {
+    position: fixed; font-size: 40px;
+    bottom: -100px; pointer-events: none;
+    z-index: 0;
+    animation: balloonUp linear forwards;
+  }
+  @keyframes balloonUp {
+    0% { transform: translateY(0) rotate(0); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div class="splash" id="splash">
+  <div class="splash-content">
+    <div class="splash-emoji">😭</div>
+    <h1 class="splash-title">MUGO" KOE SENENG PER</h1>
+    <div class="splash-loader">
+      <div class="splash-loader-bar"></div>
+    </div>
+    <p class="splash-loading">Memuat kejutan...</p>
+  </div>
+</div>
+
+<video class="bg-video" autoplay muted loop playsinline>
+  <source src="https://files.catbox.moe/t5w13j.mp4" type="video/mp4">
+</video>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="cake">🎂</div>
+    <h1>SELAMAT ULANG TAHUN</h1>
+    <h2>DION 🎉</h2>
+    <p>Semoga panjang umur & bahagia selalu</p>
+  </div>
+
+  <div class="card">
+    <h3>📖 Novel Spesial: Dion & Misteri Ulang Tahun</h3>
+    <div class="novel-title">Chapter 1: Pagi yang Ajaib</div>
+    <div class="novel-subtitle">KISAH SPESIAL UNTUK DION</div>
+
+    <div class="novel-content">
+      <p>Pagi itu, cok, matahari bersinar lebih terang dari biasanya. Dion bangun dari tidurnya dengan perasaan aneh — kayak ada sesuatu yang bakal terjadi hari ini. Tapi dia gak tau apa.</p>
+
+      <p>Dia nengok kalender di dinding kamarnya. Tanggal hari ini dilingkari pake spidol merah, dan di bawahnya ada tulisan gede: <span class="emphasize">"HARI SPESIAL!"</span></p>
+
+      <p class="dialog">"Cok... hari ini ulang tahun gue ya?" gumam Dion sambil nyengir sendiri.</p>
+
+      <p>Dia buru-buru mandi, pake baju terbaiknya, dan siap-siap. Tapi pas dia buka pintu kamar... <span class="emphasize">BAM!</span></p>
+
+      <p class="dialog">"SURPRISE, COK!!!" teriak semua orang yang udah nunggu di ruang tamu.</p>
+
+      <p>Dion kaget banget sampe hampir jatuh. Di ruang tamu udah penuh balon warna-warni, kue gede di tengah meja, dan tumpukan kado warna cerah. Ada keluarga, sahabat, dan temen-temen terdekatnya.</p>
+
+      <p class="dialog">"Cok... kalian semua dateng?" kata Dion sambil matanya berkaca-kaca.</p>
+
+      <p class="dialog">"Ya iyalah cok! Lo pikir kita bakal ngelewatin hari spesial lo?" jawab sahabatnya sambil ketawa.</p>
+
+      <p>Dion nyium lilin sambil bikin permohonan dalam hati. Semua orang tepuk tangan sambil nyanyi lagu ulang tahun. Suasananya hangat banget, cok.</p>
+
+      <div class="chapter-divider">✦ ✦ ✦</div>
+
+      <p>Setelah acara tiup lilin, Dion duduk di teras rumah. Dia masih gak percaya sama apa yang baru aja terjadi. Ternyata banyak banget orang yang peduli sama dia.</p>
+
+      <p class="dialog">"Cok, lu kenapa melamun?" tanya Rian, sahabatnya dari SMP.</p>
+
+      <p class="dialog">"Gak, gue cuma... bersyukur aja. Ternyata gue punya banyak orang baik di sekitar gue," jawab Dion.</p>
+
+      <p class="dialog">"Ya elah, cok. Lu tuh emang beruntung. Jangan sedih-sedih lagi ya. Umur lu nambah, harus lebih dewasa," kata Rian sambil nepuk bahu Dion.</p>
+
+      <p>Mereka ngobrol panjang banget sampe malem. Cerita tentang mimpi, harapan, dan rencana ke depan. Dion janji sama diri sendiri — tahun ini bakal jadi tahun terbaiknya.</p>
+
+      <div class="chapter-divider">✦ ✦ ✦</div>
+    </div>
+
+    <div class="novel-title" style="margin-top:20px">Chapter 2: Kado Misterius</div>
+    <div class="novel-subtitle">SIAPA YANG NGIRIM?</div>
+
+    <div class="novel-content">
+      <p>Malem itu, pas Dion mau tidur, ada yang ketok pintu rumahnya. Dia buka pintu, tapi gak ada siapa-siapa. Cuma ada satu kotak kecil di depan pintu, cok.</p>
+
+      <p>Kotaknya warna hitam, pake pita merah. Ada tulisan kecil di atasnya: <span class="emphasize">"Dari seseorang yang selalu mengagumi lo, Dion."</span></p>
+
+      <p class="dialog">"Cok... siapa nih yang ngirim?" gumam Dion bingung.</p>
+
+      <p>Dia buka kotaknya pelan-pelan. Isinya... sebuah jam tangan klasik warna silver, plus satu surat kecil yang dilipat rapi.</p>
+
+      <p class="dialog">"Dion, selamat ulang tahun. Gue selalu ngeliat lo dari jauh. Lo orang baik, dan gue berharap lo selalu bahagia. Jangan berubah ya. — Seseorang yang gak berani ngomong langsung."</p>
+
+      <p>Dion baca suratnya berkali-kali. Hatinya hangat banget. Dia gak tau siapa pengirimnya, tapi dia bener-bener terharu.</p>
+
+      <p>Malam itu, Dion tidur sambil senyum. Dia mimpi indah banget — mimpi ketemu seseorang yang selama ini diam-diam memperhatikannya.</p>
+
+      <div class="chapter-divider">✦ ✦ ✦</div>
+
+      <p>Besok paginya, Dion cerita ke Rian soal kado misterius itu.</p>
+
+      <p class="dialog">"Cok, gue dapet kado misterius semalem!" kata Dion heboh.</p>
+
+      <p class="dialog">"Hah? Dari siapa, cok?" Rian langsung penasaran.</p>
+
+      <p class="dialog">"Gak tau. Cuma ada tulisan 'seseorang yang mengagumi gue'."</p>
+
+      <p class="dialog">"Waduh, cok. Lu ada fans rahasia dong! Nanti kita selidiki ya," kata Rian sambil ketawa.</p>
+
+      <p>Mereka berdua bikin rencana buat nyari tau siapa pengirim kadonya. Petualangan mereka baru dimulai, cok!</p>
+
+      <p><span class="emphasize">Bersambung ke Chapter 3...</span></p>
+
+      <div class="chapter-divider">✦ ✦ ✦</div>
+    </div>
+
+    <div class="novel-title" style="margin-top:20px">Chapter 3: Rahasia Terungkap</div>
+    <div class="novel-subtitle">DUGAAN MULAI MENGARAH</div>
+
+    <div class="novel-content">
+      <p>Seminggu setelah ulang tahunnya, Dion masih penasaran sama kado misterius itu. Dia udah nanya ke beberapa temen, tapi gak ada yang ngaku. Cok, gimana coba?</p>
+
+      <p class="dialog">"Ri, gue udah nanya semua orang. Gak ada yang ngaku," kata Dion frustasi.</p>
+
+      <p class="dialog">"Sabar, cok. Biasanya kalo misteri gini, jawabannya ada di depan mata kita sendiri," kata Rian bijak.</p>
+
+      <p>Hari itu mereka pergi ke mall buat nyari makan siang. Pas lagi di food court, Dion ngeliat seseorang yang lagi ngeliatin dia dari jauh. Cewek, pake hijab biru, senyum tipis.</p>
+
+      <p class="dialog">"Cok, itu... cewek itu ngeliatin gue terus," bisik Dion ke Rian.</p>
+
+      <p class="dialog">"Yang mana? Yang di meja pojok itu?" tanya Rian.</p>
+
+      <p class="dialog">"Iya, cok. Sejak tadi dia ngeliatin gue."</p>
+
+      <p>Tiba-tiba cewek itu berdiri dan jalan ke arah mereka. Jantung Dion deg-degan banget, cok.</p>
+
+      <p class="dialog">"Hai, Dion. Maaf ya gue beraninya gini. Gue... yang ngirim kado itu," kata cewek itu sambil nunduk.</p>
+
+      <p>Dion kaget sampe gak bisa ngomong. Rian di sebelahnya cuma bisa nyengir.</p>
+
+      <p class="dialog">"Na... Nama lo siapa?" tanya Dion gugup.</p>
+
+      <p class="dialog">"Gue Inul. Temen sekelas lo pas SMP. Tapi kayaknya lo lupa ya," jawabnya sambil senyum.</p>
+
+      <p>Dion inget-inget. Oh iya, dia inget sekarang! Inul, cewek pendiam yang duduk di bangku belakang. Ternyata dia diam-diam memperhatikan Dion dari dulu.</p>
+
+      <p class="dialog">"Cok... maaf gue lupa. Tapi makasih ya kadonya. Gue suka banget," kata Dion tulus.</p>
+
+      <p class="dialog">"Makasih juga udah jadi lo, Dion. Lo tuh orang yang selalu baik ke semua orang. Gue kagum sama lo," kata Inul jujur.</p>
+
+      <div class="chapter-divider">✦ ✦ ✦</div>
+
+      <p>Sejak hari itu, Dion & Inul jadi deket. Mereka sering ngobrol, ketemuan, dan cerita satu sama lain. Rian selalu ngegodain mereka, "Cie cie cie..."</p>
+
+      <p class="emphasize">Dan begitulah, cok. Ulang tahun Dion bukan cuma tentang kado & kue. Tapi tentang pertemuan yang gak terduga, dan seseorang yang selama ini diam-diam menyimpan rasa.</p>
+
+      <p style="text-align:center;font-size:16px;color:#ff00cc;font-weight:900;margin-top:20px">
+        🎉 SELAMAT ULANG TAHUN DION! 🎉<br>
+        Semoga kisahmu seindah cerita ini. ✨
+      </p>
+
+      <p style="text-align:center;font-size:11px;color:#ccc;font-style:italic;margin-top:10px">
+        — Tamat —
+      </p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⏰ Waktu Bersama Dion</h3>
+    <div class="countdown">
+      <div class="cd-box"><div class="cd-num" id="cdHari">--</div><div class="cd-lbl">HARI</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdJam">--</div><div class="cd-lbl">JAM</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdMenit">--</div><div class="cd-lbl">MENIT</div></div>
+      <div class="cd-box"><div class="cd-num" id="cdDetik">--</div><div class="cd-lbl">DETIK</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🎁 Kejutan Spesial</h3>
+    <div class="gift-container">
+      <div class="gift-box" id="giftBox" onclick="bukaKado()">🎁</div>
+      <div class="gift-hint">👆 Tap kadonya, cok!</div>
+      <div class="gift-surprise" id="giftSurprise">
+        <b>🎉 Selamat Ulang Tahun Dion! 🎉</b><br><br>
+        Cok, semoga di umur yang baru ini:<br>
+        ✨ Rezekimu makin lancar<br>
+        💪 Sehat selalu<br>
+        😊 Bahagia tak berkesudahan<br>
+        🚀 Mimpi-mimpimu tercapai<br>
+        ❤️ Dikelilingi orang-orang baik<br><br>
+        <b>Lo keren, Dion! Terus bersinar ya! 🌟</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="shareUcapan()">📤 Share Ucapan</button>
+    <button class="btn green" onclick="putarLagu()">🎵 Putar Lagu</button>
+  </div>
+
+  <div class="footer">
+    Dibuat dengan <span class="heart">❤️</span> khusus untuk Dion<br>
+    © 2026 RASHXIT · Spesial Ulang Tahun
+  </div>
+</div>
+
+<div class="toast" id="toast">Siap!</div>
+
+<script>
+// ===== SPLASH SCREEN =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const splash = document.getElementById('splash');
+    if (splash) {
+      splash.classList.add('hide');
+      setTimeout(() => splash.remove(), 600);
+    }
+  }, 3000);
+});
+
+function buatConfetti() {
+  const colors = ['#ff00cc','#3333ff','#00e5ff','#ffd700','#ff0044','#00b09b'];
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + '%';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (3 + Math.random() * 3) + 's';
+      c.style.animationDelay = Math.random() * 2 + 's';
+      if (Math.random() > 0.5) c.style.borderRadius = '50%';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 8000);
+    }, i * 100);
+  }
+}
+
+function buatBalon() {
+  const emojis = ['🎈','🎈','🎈','🎊','🎉'];
+  setInterval(() => {
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    b.style.left = Math.random() * 90 + '%';
+    b.style.animationDuration = (8 + Math.random() * 4) + 's';
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 12000);
+  }, 2000);
+}
+
+let startTime = Date.now();
+function updateCountdown() {
+  const diff = Date.now() - startTime;
+  const detik = Math.floor(diff / 1000);
+  const hari = Math.floor(detik / 86400);
+  const jam = Math.floor((detik % 86400) / 3600);
+  const menit = Math.floor((detik % 3600) / 60);
+  const sisaDetik = detik % 60;
+  document.getElementById('cdHari').textContent = String(hari).padStart(2, '0');
+  document.getElementById('cdJam').textContent = String(jam).padStart(2, '0');
+  document.getElementById('cdMenit').textContent = String(menit).padStart(2, '0');
+  document.getElementById('cdDetik').textContent = String(sisaDetik).padStart(2, '0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+function bukaKado() {
+  const box = document.getElementById('giftBox');
+  const surprise = document.getElementById('giftSurprise');
+  if (box.classList.contains('opened')) return;
+  box.classList.add('opened');
+  tampilkanToast('🎉 Kejutan dibuka, cok!');
+  setTimeout(() => {
+    box.style.display = 'none';
+    surprise.classList.add('show');
+    buatConfetti();
+    for (let i = 0; i < 5; i++) setTimeout(buatBalon, i * 200);
+  }, 600);
+}
+
+function shareUcapan() {
+  const text = '🎉 Selamat Ulang Tahun Dion! 🎂\nSemoga panjang umur, sehat selalu, dan semua impianmu tercapai! ✨';
+  if (navigator.share) {
+    navigator.share({ title: 'Selamat Ulang Tahun Dion', text: text })
+      .then(() => tampilkanToast('✅ Berhasil dibagikan!'))
+      .catch(() => copyText(text));
+  } else {
+    copyText(text);
+  }
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    tampilkanToast('📋 Ucapan disalin, cok!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    tampilkanToast('📋 Ucapan disalin!');
+  });
+}
+
+function putarLagu() {
+  tampilkanToast('🎵 Fitur lagu belum aktif');
+}
+
+function tampilkanToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+buatConfetti();
+buatBalon();
+
+document.addEventListener('click', () => {
+  const vid = document.querySelector('.bg-video');
+  if (vid && vid.paused) vid.play().catch(()=>{});
+}, {once: true});
+</script>
+</body>
+</html>
